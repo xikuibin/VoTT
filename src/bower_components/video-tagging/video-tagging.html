@@ -761,7 +761,7 @@
          var unlabledTags = [];
          if (regions !== undefined){
             unlabledTags = regions.map(function(region,index){
-                if (!region.tags.length > 0) return index + 1;
+                if (region.tags !== undefined && !region.tags.length > 0) return index + 1; //USVIDEO
          }).filter(Number.isInteger);
         }
         return unlabledTags;
