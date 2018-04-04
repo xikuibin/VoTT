@@ -7,7 +7,9 @@ const DetectionExtension = require('./lib/videotagging_extensions').Detection;
 const ipcRenderer = require('electron').ipcRenderer;
 const testSetSize = .20;
 
-var trackingEnabled = true; 
+// USVIDEO
+var trackingEnabled = false; 
+//var trackingEnabled = true; 
 
 var saveState,
     visitedFrames, //keep track of the visited frames
@@ -193,6 +195,9 @@ function openPath(pathName, isDir) {
     $('#load-form-container').show();
     $('#framerateGroup').show();
     
+    //USVIDEO 
+    document.getElementById("tracking").checked = false;
+
     //set title indicator
     $('title').text(`Tagging Job Configuration: ${path.basename(pathName, path.extname(pathName))}`);
     $('#inputtags').tagsinput('removeAll');//remove all previous tag labels
@@ -311,10 +316,19 @@ function openPath(pathName, isDir) {
               enableSceneChangeDetection: document.getElementById("scd").checked,
               saveHandler: save
           });
+
           videotagging.video.oncanplay = updateVisitedFrames; 
 
           //track visited frames
-          trackingExtension.startTracking();
+          // USVIDEO trackingExtension.startTracking();
+          if( document.getElementById("tracking").checked == false )  {
+            trackingExtension.stopTracking();
+            trackingEnabled = false;
+          }
+          else {
+            trackingExtension.startTracking();
+            trackingEnabled = true;            
+          }
         }
 
         //init detection
