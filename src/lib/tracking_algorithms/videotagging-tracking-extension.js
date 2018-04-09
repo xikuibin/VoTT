@@ -21,7 +21,8 @@ function VideoTaggingTrackingExtension( options = {} ) {
                 $.map($('.regionCanvas'), (regionCanvas, i) => { 
                     //get regionId
                     for (regInd = 0; regInd < self.videotagging.frames[curFrame].length; regInd++) {
-                        if (self.videotagging.frames[curFrame][regInd].name = regionCanvas.id) {
+                        // bugfix USVIDEO
+                        if (self.videotagging.frames[curFrame][regInd].name == regionCanvas.id) {
                             self.videotagging.frames[curFrame][regInd].blockSuggest = true;
                         }
                     }

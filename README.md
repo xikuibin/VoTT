@@ -1,11 +1,24 @@
 
 # Revision History
-1. 2018/4/3 forked from Microsoft/VoTT, 根据业务需求做修改适应影像标注需求
-1. 初始化过程 - 
-    1. 把标题改成"US Video ..."; 2
-    2. configur对话框汉化，增加默认tag BP，默认帧速率5
-3. 
 
+- V 1.1.1 2018/4/9
+
+1. bugfix: 切换Frame之后，标注的编号变成一样的，无法删除
+
+- V 1.1.0 2018/4/4
+
+1.  forked from Microsoft/VoTT, 根据业务需求做修改适应影像标注需求
+
+2. 初始化过程 - 
+    1. 把标题改成"US Video ..."; 2
+    2. 配置对话框汉化
+    3. 配置对话框增加默认tag BP
+    4. 配置对话框默认帧速率5
+    5. 配置对话框增加配置Enable auto tracking, 默认值false
+    6. 
+3. 修改emptyframe造成无法前后翻页的bug
+
+4. 改用electron-builder打包
 
 
 
