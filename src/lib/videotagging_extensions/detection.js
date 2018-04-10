@@ -128,6 +128,13 @@ function Detection(videotagging, visitedFrames) {
             var frameTags = [];
             //confirm that frame is tagged and that no tags are unlabeled 
             var frameIsTagged = self.videotagging.frames.hasOwnProperty(frameId) && (self.videotagging.frames[frameId].length);
+            
+            //USVIDEO
+            var tmpFrame = self.videotagging.frames[frameId]; 
+            // ignore visited frames without any tag or empty frame flag.
+            if(tmpFrame == undefined || tmpFrame.length == 0) return frameExportCb();
+            if(tmpFrame[0].tags == undefined ) frameIsTagged = false; // marked as empty frame
+            
             if (frameIsTagged && (self.videotagging.getUnlabeledRegionTags(frameId).length != self.videotagging.frames[frameId].length)) {
                 //genereate metadata from tags
                 self.videotagging.frames[frameId].map( (tag) => {

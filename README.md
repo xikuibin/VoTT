@@ -1,5 +1,8 @@
 
 # Revision History
+- V 1.1.2 2018/4/10
+
+1. 标记为empty frame的帧导出成negative。没有任何标注的帧不导出。
 
 - V 1.1.1 2018/4/9
 
