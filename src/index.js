@@ -165,7 +165,12 @@ function fileSelected(filepath) {
     openPath(pathName, false);
   } else { // showing system open dialog
     dialog.showOpenDialog({
-      filters: [{ name: 'Videos', extensions: ['mp4','ogg']}],
+      // USVIDEO
+      // filters: [{ name: 'Videos', extensions: ['mp4','ogg']}],
+      filters: [
+        {name: 'Videos', extensions: ['wmv', 'avi', 'mp4']},
+        {name: 'All Files', extensions: ['*']}
+        ],
       properties: ['openFile']
     },
     function (pathName) {
@@ -189,6 +194,40 @@ function folderSelected(folderpath) {
 }
 
 function openPath(pathName, isDir) {
+
+    // USVIDOE convert video file to ogg format
+    if(!isDir)
+    {
+      var newVidoePathName = pathName.substring(0, pathName.lastIndexOf('.')) + '.ogg';
+
+      try {
+        fs.accessSync(newVidoePathName, fs.constants.R_OK | fs.constants.W_OK);
+        console.log('ogg is existing');
+      } catch (err) {
+        console.log('Create ogg by ffmpeg.');
+            /// if ogg exist, keep it
+
+        //const ffmpeg = require('ffmpeg-static');
+        var ffmpegpath = require('ffmpeg-static').path.replace('app.asar', 'app.asar.unpacked')
+
+        const child_process = require('child_process');
+        console.log(ffmpegpath);
+        // ffmpeg -i F:\TEMP\ffmpegtest\p6.1.avi -codec:v libtheora -q:v 10 p61mp4nimingOUTPUTnew.ogg
+       
+        var result = child_process.spawnSync(ffmpegpath,  
+                            [ '-i', pathName,
+                            '-codec:v', 'libtheora', '-q:v', '10',
+                            '-y', 
+                            newVidoePathName
+                            ] );
+        // console.log('ffmpeg result:' + result);
+        console.log('ffmpeg exit code: ' + result.status);
+        console.log('ffmpeg stdout: ' + result.stdout);
+        console.log('ffmpeg stderr: ' + result.stderr);
+      }
+
+    }
+
     // show configuration
     $('#load-message-container').hide();
     $('#video-tagging-container').hide();
@@ -301,7 +340,10 @@ function openPath(pathName, isDir) {
           // USVIDEO
           $('title').text(`US Video Tagging Job: ${path.basename(pathName, path.extname(pathName))}`); //set title indicator
           videotagging.disableImageDir();
-          videotagging.src = pathName;
+          //USVIDOE 
+          // videotagging.src = pathName;
+          videotagging.src = newVidoePathName;
+          videotagging.srcOriginal = pathName; //used by save
           //set start time
           videotagging.video.oncanplay = function (){
               videotagging.videoStartTime = videotagging.video.currentTime;
@@ -337,7 +379,9 @@ function openPath(pathName, isDir) {
         $('#load-form-container').hide();
         $('#video-tagging-container').show();
 
-        ipcRenderer.send('setFilePath', pathName);
+        // USVIDEO
+        // ipcRenderer.send('setFilePath', pathName);
+        ipcRenderer.send('setFilePath', newVidoePathName);
       } else {
         $('.bootstrap-tagsinput').last().addClass( "invalid" );
       }
@@ -362,8 +406,10 @@ function save() {
     var saveLock;
     if (!saveLock){
            saveLock = true;
-           fs.writeFile(`${videotagging.src}.json`, JSON.stringify(saveObject),()=>{
-             saveState = JSON.stringify(saveObject);
+
+           fs.writeFile(`${videotagging.srcOriginal}.json`, JSON.stringify(saveObject),()=>{
+           //fs.writeFile(`${videotagging.src}.json`, JSON.stringify(saveObject),()=>{
+              saveState = JSON.stringify(saveObject);
              console.log("saved");
            });
            setTimeout(()=>{saveLock=false;}, 500);

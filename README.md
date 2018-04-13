@@ -1,5 +1,10 @@
 
 # Revision History
+- V 1.2.0 2018/4/13
+
+1. 用ffmpeg把视频自动转换成ogg格式用于标注
+2. 把ffmpeg打包到发布包中, 把x64和ia32的ffmpeg都加到包里了。没搞清楚打包的时候怎么选择一个。
+
 - V 1.1.2 2018/4/10
 
 1. 标记为empty frame的帧导出成negative。没有任何标注的帧不导出。
