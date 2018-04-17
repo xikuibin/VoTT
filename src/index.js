@@ -216,7 +216,7 @@ function openPath(pathName, isDir) {
        
         var result = child_process.spawnSync(ffmpegpath,  
                             [ '-i', pathName,
-                            '-codec:v', 'libtheora', '-q:v', '10',
+                            '-codec:v', 'libtheora', '-q:v', '8',
                             '-y', 
                             newVidoePathName
                             ] );

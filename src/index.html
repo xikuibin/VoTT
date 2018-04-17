@@ -30,7 +30,8 @@
     <div id="load-message-container">
       <div id = "load-text"><h2>Select an <b>Image Directory</b> or <b>Video</b> for tagging.</h2></div>
         <div id="load-icons" >
-          <svg id="dirImage" version="1.1" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 36 32" onclick="folderSelected()">
+          <!-- USVIDEO <svg id="dirImage" version="1.1" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 36 32" onclick="folderSelected()"> -->
+          <svg id="dirImage" version="1.1" xmlns="http://www.w3.org/2000/svg"  visible = "false" viewBox="0 0 36 32">
             <title>images</title>
             <path d="M34 4h-2v-2c0-1.1-0.9-2-2-2h-28c-1.1 0-2 0.9-2 2v24c0 1.1 0.9 2 2 2h2v2c0 1.1 0.9 2 2 2h28c1.1 0 2-0.9 2-2v-24c0-1.1-0.9-2-2-2zM4 6v20h-1.996c-0.001-0.001-0.003-0.002-0.004-0.004v-23.993c0.001-0.001 0.002-0.003 0.004-0.004h27.993c0.001 0.001 0.003 0.002 0.004 0.004v1.996h-24c-1.1 0-2 0.9-2 2v0zM34 29.996c-0.001 0.001-0.002 0.003-0.004 0.004h-27.993c-0.001-0.001-0.003-0.002-0.004-0.004v-23.993c0.001-0.001 0.002-0.003 0.004-0.004h27.993c0.001 0.001 0.003 0.002 0.004 0.004v23.993z"></path>
             <path d="M30 11c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"></path>
@@ -48,9 +49,10 @@
 
       
       <div class="form-group" id="framerateGroup">
-        <label title="(How many frames to extract per a second of video!)">帧抽取速度 (每秒钟帧数)</label>
+        <label title="(How many frames to extract per a second of video!)">帧抽取比例 (每秒钟帧数)</label>
         <!-- USVIDEO -->
-        <input id="framerate" type="number" min="1" max="60" value="3" maxlength="3" size="3" class="form-control" style ="max-width: 5em"/>
+        <input id="framerate" type="number" min="1" max="30" value="6" maxlength="3" size="3" class="form-control" style ="max-width: 5em"/>
+        <label title="noticce2" class="label label-info">标注后修改抽取比例会造成已有标注不正确，请慎重修改</label>
       </div>
       <div class="form-group">
         <label title="(Type of region selector to tag frames)">Region Type</label>

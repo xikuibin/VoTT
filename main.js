@@ -124,9 +124,10 @@ function createWindow () {
           click () { mainWindow.webContents.send('openVideo'); }
         },
         {
-          label: 'Open Image Directory...',
-          accelerator: 'CmdOrCtrl+I',
-          click () { mainWindow.webContents.send('openImageDirectory'); }
+           label: 'Open Image Directory...',
+           accelerator: 'CmdOrCtrl+I',
+           visible : false,
+           click () { mainWindow.webContents.send('openImageDirectory'); }
         },
         {
           label: 'Save',

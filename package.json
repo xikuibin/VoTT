@@ -1,7 +1,7 @@
 {
   "name": "vott",
-  "version": "1.2.0",
-  "description": "US Vott 20180413 An electron app for building end to end Object Detection Models with CNTK from Sample Videos.",
+  "version": "1.2.1",
+  "description": "US Vott 20180417 An electron app for video tagging.",
   "main": "main.js",
   "scripts": {
     "start": "electron ."

@@ -1,5 +1,12 @@
 
 # Revision History
+
+- V 1.2.1 2018/4/17
+
+1. 禁用打开文件目录
+2. 默认framerate改成6
+3. ffmpeg质量改成8
+
 - V 1.2.0 2018/4/13
 
 1. 用ffmpeg把视频自动转换成ogg格式用于标注
