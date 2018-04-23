@@ -88,27 +88,48 @@
         <div id="loadButton" class="btn btn-primary">继续</div>
     </div>
 
-    
-    <div id='video-preview-container' style="width:50%; height:100%; display: none">
+<style type="text/css">
+      .videobutton {            
+        margin-left: 5%; 
+        border:0px; 
+        background-color: black; 
+        margin-right: 3%;
+        width: 24px;
+        height: 24px;
+      }
+     
+  </style>
+
+    <div id='video-preview-container' style="background-color:black; width:50%; height:100%; display: none; ">
       <label style="width:100%">预览</label>
-      <video id='video-preview-control' controls="off" muted="true" volume=0 ontimeupdate="timeupdated()">
+      <video id='video-preview-control' style="width:100%"  controls="off" muted="true" volume=0 ontimeupdate="timeupdated()">
           <p>HTML5 video</p> 
       </video>
-      
-      <button onclick="stepbwd()" title="上一帧"><img src="images/frame-backward-button.png" alt="backward frame"></button>
-      <button onclick="stepfwd()" title="下一帧"><img src="images/frame-forward-button.png" alt="forward frame"></button>
-      <button onclick="synctime()" title="回到当前帧"><img src="images/sync-target-button.png" alt="sync frame position"></button>
-      <button onclick="play()" title="播放"><img src="images/player-play-button.png" alt="play"></image></button>
-      <button onclick="pause()" title="暂停"><img src="images/player-pause-button.png" alt="pause"></image></button>
-      <lable id="curtime" title="curtime" >0:0 / 0:0</lable>
-      <br/>
-      <input type="checkbox" id="loopstatus" checked="true">循环播放</input>
-      <lable >  循环范围±</lable>
-      <input type="number" id="looprange" value="5" maxlength="3" style="width:50px;"></input>
-      <lable >秒</lable>
+           
+      <div style="padding: 3px; background-color: black; margin-top: 3%;">
+          <!-- icons are from https://www.flaticon.com/packs/line-ui -->
+          <button onclick="stepbwd()" title="上一帧" class = "videobutton" style=" " ><img src="images/frame-backward-button.png" alt="backward frame"></button>
+          <button onclick="stepfwd()" title="下一帧" class = "videobutton" style=" " ><img src="images/frame-forward-button.png" alt="forward frame"></button>
+          <button onclick="synctime()" title="回到当前帧" class = "videobutton" style=" "><img src="images/sync-target-button.png" alt="sync frame position"></button>
+          <button onclick="play()" title="播放" class = "videobutton" style=" "><img src="images/player-play-button.png" alt="play"></image></button>
+          <button onclick="pause()" title="暂停" class = "videobutton" style=" "><img src="images/player-pause-button.png" alt="pause"></image></button>
+          <lable id="curtime" title="curtime" style="  margin-left: 5%; font-size: medium; color: white; ">0:0 / 0:0</lable>
+      </div>
 
-      
+      <div style=" margin-top: 3%;">
+        <input type="checkbox" id="loopstatus" checked="true" style=" margin-left: 3%;  "></input>
+        <lable style="color: white; margin-right: 3%;">循环播放</lable>
+        
+        <lable style=" margin-left: 3%; color: white;">  循环范围 ±</lable>
+        <input type="number" id="looprange" value="5" maxlength="3" style="width:50px;"></input>
+        <lable style=" margin-right: 3%; color: white;">秒</lable>
+      </div>
+
+      <div style="height: 500px; width:50px; background-color: black"></div>
     </div>
+
+  </div>
+
     <div id='video-tagging-container' style="left:50%; width:50%; display: none">
         <label>标注</label>
         <video-tagging id='video-tagging' ></video-tagging>
