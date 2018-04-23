@@ -344,6 +344,12 @@ function openPath(pathName, isDir) {
           // videotagging.src = pathName;
           videotagging.src = newVidoePathName;
           videotagging.srcOriginal = pathName; //used by save
+
+          //USVIDEO
+          videopreview = $('#video-preview-control')[0];
+          videopreview.src = newVidoePathName;
+          videopreview.load()
+
           //set start time
           videotagging.video.oncanplay = function (){
               videotagging.videoStartTime = videotagging.video.currentTime;
@@ -361,6 +367,7 @@ function openPath(pathName, isDir) {
 
           videotagging.video.oncanplay = updateVisitedFrames; 
 
+          videotagging.video.ontimeupdate = tracktimeupdated;
           //track visited frames
           // USVIDEO trackingExtension.startTracking();
           if( document.getElementById("tracking").checked == false )  {
@@ -377,6 +384,7 @@ function openPath(pathName, isDir) {
         detection = new DetectionExtension(videotagging, visitedFrames);
         
         $('#load-form-container').hide();
+        $('#video-preview-container').show();
         $('#video-tagging-container').show();
 
         // USVIDEO
@@ -415,4 +423,101 @@ function save() {
            setTimeout(()=>{saveLock=false;}, 500);
     } 
 
+}
+
+// video preview
+var playstart = 0;
+var loopduration = 0;
+var loopenabled = false;
+var videoduration = 1000;
+
+function syncvideotime() {
+  var videotagging = document.getElementById('video-tagging');
+  var videopreview = document.getElementById('video-preview-control'); //or
+  videopreview.currentTime = videotagging.video.currentTime;
+}
+
+function tracktimeupdated() {
+  syncvideotime();
+}
+
+function synctime() {
+  syncvideotime();
+}
+
+function stepfwd() {
+  
+  var videotagging = document.getElementById('video-tagging');
+  var video = document.getElementById('video-preview-control'); //or
+
+  video.currentTime = video.currentTime + 1/videotagging.framerate;
+}
+
+function stepbwd() {
+  var videotagging = document.getElementById('video-tagging');
+  var video = document.getElementById('video-preview-control'); //or
+  video.currentTime = video.currentTime - 1/videotagging.framerate;
+}
+
+function play() {
+  var video = document.getElementById('video-preview-control'); //or
+  playstart = video.currentTime;
+  loopduration = Number(document.getElementById('looprange').value);
+  loopenabled = document.getElementById('loopstatus').checked;
+  videoduration = video.duration;
+  console.log("videoduration ", videoduration)
+  //video.controls = false;
+  video.play();
+
+}
+
+function pause() {
+  var video = document.getElementById('video-preview-control'); //or
+  video.pause();
+  playstart = 0;
+  loopduration = 0;
+  loopenabled = false;
+  video.controls = true;
+}
+
+function zeroPad(num, places) {
+  var zero = places - num.toString().length + 1;
+  return Array(+(zero > 0 && zero)).join("0") + num;
+}
+
+function timeFormat(timeval) {
+  var  time_min = Math.floor(timeval / 60).toString();
+  var  time_sec = zeroPad(Math.floor(timeval % 60), 2);
+  return ( time_min + " : " + time_sec)
+}
+
+function timeupdated() {
+  
+  var video = document.getElementById('video-preview-control'); //or
+  
+  var curtime = timeFormat(video.currentTime);
+  //var sduration = timeFormat(video.duration)
+
+  document.getElementById('curtime').innerText = curtime ;// + " / " +  sduration;
+
+  console.log('loopenabled ' + loopenabled);
+  console.log('loopduration ' + loopduration);
+  console.log('currentTime ' + video.currentTime)
+  if(loopenabled && loopduration>0)  {
+      curtime = video.currentTime;
+      uplimit = playstart + loopduration;
+      lowlimit = playstart - loopduration;
+      console.log('loop range ' + uplimit);
+      if( curtime > uplimit) {
+        video.currentTime = lowlimit;
+        console.log('change video.currentTime');
+      } else if ( video.ended ) {
+        video.currentTime = lowlimit;
+        video.play();
+      }
+
+  } else {
+    console.log(video.currentTime)
+  }
+  
 }

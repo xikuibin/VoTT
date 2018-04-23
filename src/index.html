@@ -87,7 +87,30 @@
 
         <div id="loadButton" class="btn btn-primary">继续</div>
     </div>
-    <div id='video-tagging-container' style="display: none">
+
+    
+    <div id='video-preview-container' style="width:50%; height:100%; display: none">
+      <label style="width:100%">预览</label>
+      <video id='video-preview-control' controls="off" muted="true" volume=0 ontimeupdate="timeupdated()">
+          <p>HTML5 video</p> 
+      </video>
+      
+      <button onclick="stepbwd()" title="上一帧"><img src="images/frame-backward-button.png" alt="backward frame"></button>
+      <button onclick="stepfwd()" title="下一帧"><img src="images/frame-forward-button.png" alt="forward frame"></button>
+      <button onclick="synctime()" title="回到当前帧"><img src="images/sync-target-button.png" alt="sync frame position"></button>
+      <button onclick="play()" title="播放"><img src="images/player-play-button.png" alt="play"></image></button>
+      <button onclick="pause()" title="暂停"><img src="images/player-pause-button.png" alt="pause"></image></button>
+      <lable id="curtime" title="curtime" >0:0 / 0:0</lable>
+      <br/>
+      <input type="checkbox" id="loopstatus" checked="true">循环播放</input>
+      <lable >  循环范围±</lable>
+      <input type="number" id="looprange" value="5" maxlength="3" style="width:50px;"></input>
+      <lable >秒</lable>
+
+      
+    </div>
+    <div id='video-tagging-container' style="left:50%; width:50%; display: none">
+        <label>标注</label>
         <video-tagging id='video-tagging' ></video-tagging>
     </div>
 
