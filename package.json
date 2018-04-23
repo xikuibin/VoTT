@@ -1,7 +1,7 @@
 {
   "name": "vott",
-  "version": "1.2.1",
-  "description": "US Vott 20180417 An electron app for video tagging.",
+  "version": "1.3.0",
+  "description": "US Vott 20180423 An electron app for video tagging.",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
