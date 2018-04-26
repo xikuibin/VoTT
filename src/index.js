@@ -348,6 +348,7 @@ function openPath(pathName, isDir) {
           //USVIDEO
           videopreview = $('#video-preview-control')[0];
           videopreview.src = newVidoePathName;
+          videopreview.controls = false;
           videopreview.load()
 
           //set start time
@@ -368,6 +369,12 @@ function openPath(pathName, isDir) {
           videotagging.video.oncanplay = updateVisitedFrames; 
 
           videotagging.video.ontimeupdate = tracktimeupdated;
+
+          //USVIDEO
+          //    videotagging.video.oncanplay = syncvideosize;
+          videotagging.video.oncanplaythrough = syncvideosize; //oncanplay also work
+
+          
           //track visited frames
           // USVIDEO trackingExtension.startTracking();
           if( document.getElementById("tracking").checked == false )  {
@@ -378,6 +385,7 @@ function openPath(pathName, isDir) {
             trackingExtension.startTracking();
             trackingEnabled = true;            
           }
+
         }
 
         //init detection
@@ -431,6 +439,16 @@ var loopduration = 0;
 var loopenabled = false;
 var videoduration = 1000;
 
+
+function syncvideosize() {
+  console.log('syncvideosize()');
+  videotag = $("#video-tagging")[0];
+  var video = document.getElementById('video-preview-control');
+  video.height = videotag.video.clientHeight;
+  video.width = videotag.video.clientWidth;
+}
+
+
 function syncvideotime() {
   var videotagging = document.getElementById('video-tagging');
   var videopreview = document.getElementById('video-preview-control'); //or
@@ -439,6 +457,7 @@ function syncvideotime() {
 
 function tracktimeupdated() {
   syncvideotime();
+  syncvideosize();
 }
 
 function synctime() {
@@ -466,7 +485,7 @@ function play() {
   loopenabled = document.getElementById('loopstatus').checked;
   videoduration = video.duration;
   console.log("videoduration ", videoduration)
-  //video.controls = false;
+  video.controls = false;
   video.play();
 
 }
@@ -477,7 +496,7 @@ function pause() {
   playstart = 0;
   loopduration = 0;
   loopenabled = false;
-  video.controls = true;
+  video.controls = false;
 }
 
 function zeroPad(num, places) {
@@ -492,7 +511,6 @@ function timeFormat(timeval) {
 }
 
 function timeupdated() {
-  
   var video = document.getElementById('video-preview-control'); //or
   
   var curtime = timeFormat(video.currentTime);
@@ -500,24 +518,24 @@ function timeupdated() {
 
   document.getElementById('curtime').innerText = curtime ;// + " / " +  sduration;
 
-  console.log('loopenabled ' + loopenabled);
-  console.log('loopduration ' + loopduration);
-  console.log('currentTime ' + video.currentTime)
+  //console.log('loopenabled ' + loopenabled);
+  //console.log('loopduration ' + loopduration);
+  //console.log('currentTime ' + video.currentTime)
   if(loopenabled && loopduration>0)  {
       curtime = video.currentTime;
       uplimit = playstart + loopduration;
       lowlimit = playstart - loopduration;
-      console.log('loop range ' + uplimit);
+      //console.log('loop range ' + uplimit);
       if( curtime > uplimit) {
         video.currentTime = lowlimit;
-        console.log('change video.currentTime');
+        //console.log('change video.currentTime');
       } else if ( video.ended ) {
         video.currentTime = lowlimit;
         video.play();
       }
 
   } else {
-    console.log(video.currentTime)
+    //console.log(video.currentTime)
   }
   
 }
