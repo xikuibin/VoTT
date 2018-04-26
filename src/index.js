@@ -231,6 +231,8 @@ function openPath(pathName, isDir) {
     // show configuration
     $('#load-message-container').hide();
     $('#video-tagging-container').hide();
+    $('#video-preview-container').hide();
+    $('body').css('background', 'white');
     $('#load-form-container').show();
     $('#framerateGroup').show();
     
@@ -344,6 +346,7 @@ function openPath(pathName, isDir) {
           // videotagging.src = pathName;
           videotagging.src = newVidoePathName;
           videotagging.srcOriginal = pathName; //used by save
+          videotagging.video.style.border = "2px solid gray";
 
           //USVIDEO
           videopreview = $('#video-preview-control')[0];
@@ -393,6 +396,7 @@ function openPath(pathName, isDir) {
         
         $('#load-form-container').hide();
         $('#video-preview-container').show();
+        $('body').css('background', 'black');
         $('#video-tagging-container').show();
 
         // USVIDEO
@@ -444,8 +448,8 @@ function syncvideosize() {
   console.log('syncvideosize()');
   videotag = $("#video-tagging")[0];
   var video = document.getElementById('video-preview-control');
-  video.height = videotag.video.clientHeight;
-  video.width = videotag.video.clientWidth;
+  video.height = videotag.video.clientHeight+4; // add 2 x border width
+  video.width = videotag.video.clientWidth+4; // add 2 x border width
 }
 
 
@@ -506,7 +510,7 @@ function zeroPad(num, places) {
 
 function timeFormat(timeval) {
   var  time_min = Math.floor(timeval / 60).toString();
-  var  time_sec = zeroPad(Math.floor(timeval % 60), 2);
+  var  time_sec = zeroPad(Math.round(timeval % 60), 2); 
   return ( time_min + " : " + time_sec)
 }
 
