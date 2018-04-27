@@ -176,6 +176,11 @@
             self.frameTime = 1/self.framerate;
             self.enableAreaSelect(self);
             self.optionalTags.createTagControls(self.inputtagsarray);
+
+            // USVIDEO use last tag as default
+            self.lastClickedTags = []; //USVIDEO
+            if(self.inputtagsarray.length == 1) self.lastClickedTags[0] = self.inputtagsarray[0];
+
             //Take the raw video aspect ratio
             self.aspect = self.video.offsetWidth / self.video.offsetHeight;
             self.snapToAspectRatio();
@@ -258,6 +263,7 @@
       this.addEventListener("ontagsubmitted", function(e) {
               var arr = [];
               arr.push(e.detail.tagid);
+              this.lastClickedTags = arr.slice(0); //USVIDOE save the last action 
               this.addTagsToRegion(arr);
               this.emitRegionToHost();//Persist
               selected_region = this.selectedRegionId
@@ -374,10 +380,14 @@
                             region.name, region.tags); //add frame
         this.updateRegionZIndices();//update region z indecies
         this.regionSelected(region.name);//Select it by default
+        
+        // USVIDEO
         //if there is only one tag enable it  by default
-        if ($(`#${this.optionalTags.id}`).find('.tagButtons').size() == 1){
-            $(`#${this.optionalTags.id}`).find('.tagButtons')[0].click();
-        }
+        // if ($(`#${this.optionalTags.id}`).find('.tagButtons').size() == 1){
+        //     $(`#${this.optionalTags.id}`).find('.tagButtons')[0].click();
+        // }
+        region.tags = this.lastClickedTags.slice();
+
         if(this.lockTagsEnabled) {
             //Get all selected tags and add them to current region automatically
             //this.selectedTags was populated in this.lockTagsClicked
@@ -398,9 +408,12 @@
     addTagsToRegion: function(selectedTagsArray) {
           var regionId = this.selectedRegionId -1;//Revert to zero-based array
           var region = this.frames[this.getCurrentFrame()][regionId];
-          for (var i = 0; i < selectedTagsArray.length; i++) {
-               region.tags.push(selectedTagsArray[i]);
-          }
+          
+          //USVIDEO only permit one tag on one lable
+          region.tags = selectedTagsArray.slice();
+          // for (var i = 0; i < selectedTagsArray.length; i++) {
+          //     region.tags.push(selectedTagsArray[i]);
+          // }
     },
     nextUntaggedClicked:function() {
         if (this.checkRegionLabels()){
